@@ -1,9 +1,6 @@
 package cmd
 
-import (
-	"fmt"
-	"os"
-)
+import "os"
 
 type PackageManagerError struct {}
 func (e *PackageManagerError) Error() string {
@@ -32,7 +29,6 @@ var LockFilesPriority = []LockFile{
 func IdentifyNodePackage() ([]PackageManager, error) {
 	pkgs := []PackageManager{}
 	for _, entry := range LockFilesPriority {
-		fmt.Println(entry)
 		if _, err := os.Stat(entry.Filename); err == nil {
 			pkgs = append(pkgs, entry.Manager)
 		}
@@ -45,6 +41,4 @@ func IdentifyNodePackage() ([]PackageManager, error) {
 
 type PackageInstalled struct {
 	Pkg PackageManager
-}
-func ExecCmd(pkg *PackageInstalled) {
 }

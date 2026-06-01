@@ -22,7 +22,7 @@ func Selector(selected int, keys []string, tty *os.File) {
 		}
 }
 
-func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) {
+func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) string {
 	scripts := pkgJson.Scripts
 
 	keys := []string{}
@@ -31,6 +31,12 @@ func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) {
 			keys = append(keys, key)
 		}
 	}
+
+	  //     exec.Command("stty", "-F", "/dev/tty", "cbreak", "-echo").Run()
+	  //     defer exec.Command("stty", "-F", "/dev/tty", "-cbreak", "echo").Run()
+	  //
+	  // This is Linux-specific. It will fail on macOS (/dev/tty exists but flags differ) and Windows. Consider golang.org/x/term for cross-platform
+	  // raw mode, or document Linux-only support.
 
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "-echo").Run()
 	defer exec.Command("stty", "-F", "/dev/tty", "-cbreak", "echo").Run()
@@ -69,6 +75,5 @@ func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) {
 		}
 	}
 
-	chosen := keys[selected]
-	fmt.Printf("Chosen: %s", chosen)
+	return keys[selected]
 }

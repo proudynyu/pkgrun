@@ -6,25 +6,31 @@ import (
 	"os/exec"
 )
 
-const PACKAGE = "package.json"
+const PackageJsonFile = "package.json"
 
-type PackageError struct {}
+type PackageError struct { msg string }
 func (e *PackageError) Error() string {
+	if e.msg != "" {
+		return e.msg
+	}
 	return "No package.json was found in the current directory"
 }
 
-func ReadCurrentDir() []os.DirEntry {
+func ReadCurrentDir() ([]os.DirEntry, error) {
 	dir, err := os.ReadDir(".")
 	if err != nil {
-		panic("Was not possible to read the current directory")
+		return nil, &PackageError{"Was not possible to read the current directory"}
 	}
-	return dir
+	return dir, nil
 }
 
 func FindPackageJson() (os.DirEntry, error) {
-	dir := ReadCurrentDir()
+	dir, err := ReadCurrentDir()
+	if err != nil {
+		return nil, err
+	}
 	for _, f := range dir {
-		if f.Name() == PACKAGE && !f.IsDir() {
+		if f.Name() == PackageJsonFile && !f.IsDir() {
 			return f, nil
 		}
 	}

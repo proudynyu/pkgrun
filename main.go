@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os/exec"
 
-	"github.com/proudynyu/pkgrun/src/file"
 	"github.com/proudynyu/pkgrun/src/cmd"
 	"github.com/proudynyu/pkgrun/src/cwd"
+	"github.com/proudynyu/pkgrun/src/file"
 	"github.com/proudynyu/pkgrun/src/ui"
 )
 
@@ -22,18 +23,19 @@ func main() {
 	}
 	fmt.Printf("-> Package managers identify: %s\n", pkgs)
 
-	pkg_installed := &cmd.PackageInstalled{Pkg: ""}
+	pkgInstalled := &cmd.PackageInstalled{Pkg: ""}
 	for _, pkg := range pkgs {
 		if cwd.PackageIsInstalled(string(pkg)) {
-			pkg_installed.Pkg = pkg
+			pkgInstalled.Pkg = pkg
+			break
 		}
 	}
 
-	if pkg_installed.Pkg == "" {
+	if pkgInstalled.Pkg == "" {
 		fmt.Println("No package manager was found for the current repository")
 		return
 	}
-	fmt.Printf("-> Using package manager: %s\n", pkg_installed.Pkg)
+	fmt.Printf("-> Using package manager: %s\n", pkgInstalled.Pkg)
 
 
 	json, err := cwd.FindPackageJson()
@@ -41,6 +43,10 @@ func main() {
 		fmt.Printf("error: %s", err.Error())
 		return
 	}
-	json_file := file.ReadPackageJson(json)
-	ui.BuildInteractiveCmdChoose(json_file)
+	jsonFile, err := file.ReadPackageJson(json)
+	if err != nil {
+		panic(err.Error())
+	}
+	chosen_cmd := ui.BuildInteractiveCmdChoose(jsonFile)
+	exec.Command(string(pkgInstalled.Pkg), "run", chosen_cmd)
 }
