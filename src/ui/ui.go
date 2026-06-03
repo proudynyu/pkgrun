@@ -31,6 +31,9 @@ func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) string {
 			keys = append(keys, key)
 		}
 	}
+	if len(keys) == 0 {
+		return ""
+	}
 
 	// TODO: This is Linux-specific. It will fail on macOS (/dev/tty exists but flags differ) and Windows.
 	// Verify for cross-platform golang.org/x/term for cross-platform
