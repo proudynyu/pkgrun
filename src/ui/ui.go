@@ -32,12 +32,8 @@ func BuildInteractiveCmdChoose(pkgJson *file.PackageFormat) string {
 		}
 	}
 
-	  //     exec.Command("stty", "-F", "/dev/tty", "cbreak", "-echo").Run()
-	  //     defer exec.Command("stty", "-F", "/dev/tty", "-cbreak", "echo").Run()
-	  //
-	  // This is Linux-specific. It will fail on macOS (/dev/tty exists but flags differ) and Windows. Consider golang.org/x/term for cross-platform
-	  // raw mode, or document Linux-only support.
-
+	// TODO: This is Linux-specific. It will fail on macOS (/dev/tty exists but flags differ) and Windows.
+	// Verify for cross-platform golang.org/x/term for cross-platform
 	exec.Command("stty", "-F", "/dev/tty", "cbreak", "-echo").Run()
 	defer exec.Command("stty", "-F", "/dev/tty", "-cbreak", "echo").Run()
 

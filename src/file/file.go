@@ -23,9 +23,11 @@ type PackageFormat struct {
 }
 
 type PackageReadError struct { msg string }
+
 func (p *PackageReadError) Error() string {
 	return fmt.Sprintf("An error has occured when reading package.json: \n\n[ERROR]: %s", p.msg)
 }
+
 func ReadPackageJson(f os.DirEntry) (*PackageFormat, error) {
 	json_string, err := ReadFile(f.Name())
 	if err != nil {
