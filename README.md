@@ -107,7 +107,5 @@ Run from the directory that contains `package.json`. Parent-directory lookup is 
 
 ## Roadmap
 
-- [ ] Cross-platform terminal raw mode
-- [ ] Walk up to find `package.json`
+- [x] Cross-platform terminal raw mode
 - [ ] CI with `go test` and `go vet`
-- [ ] Monorepo / workspace support
