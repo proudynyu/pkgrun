@@ -48,7 +48,7 @@ func Run() int {
 	fmt.Printf("-> Using package manager: %s\n", pkgInstalled.Pkg)
 	json, err := cwd.FindPackageJson()
 	if err != nil {
-		fmt.Printf("error: %s", err.Error())
+		fmt.Printf("error: %s\n", err.Error())
 		return 1
 	}
 

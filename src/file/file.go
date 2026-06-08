@@ -9,8 +9,8 @@ import (
 func ReadFile(path string) ([]byte, error) {
 	buffer, err := os.ReadFile(path)
 	if err != nil {
-		fmt.Printf("Error has ocurred loading the file: [%s]", path)
-		fmt.Printf("[Error]: %s", err.Error())
+		fmt.Printf("Error has ocurred loading the file: [%s]\n", path)
+		fmt.Printf("[Error]: %s\n", err.Error())
 		return nil, err
 	}
 	return buffer, nil
@@ -25,7 +25,7 @@ type PackageFormat struct {
 type PackageReadError struct { msg string }
 
 func (p *PackageReadError) Error() string {
-	return fmt.Sprintf("An error has occured when reading package.json: \n\n[ERROR]: %s", p.msg)
+	return fmt.Sprintf("An error has occured when reading package.json: \n\n[ERROR]: %s\n", p.msg)
 }
 
 func ReadPackageJson(f os.DirEntry) (*PackageFormat, error) {
